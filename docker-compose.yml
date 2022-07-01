@@ -1,0 +1,49 @@
+version: '3.9'
+
+# Docker Networks
+networks:
+  backend:
+    driver: bridge
+  # frontend:
+    # driver: bridge
+
+services:
+  
+  # Database Service lunches
+  lunches-db:
+    image : mariadb:latest
+    container_name : lunches-db
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./lunches-mariadb/data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: lunches-db
+    networks:
+      - backend
+  
+  # Lunches backend service
+  lunches-api:
+    image: bitnami/laravel:latest
+    container_name : lunches-api
+    ports:
+      - '8000:8000'
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - './lunches-api:/app'
+    depends_on:
+      - lunches-db
+    networks:
+      - backend
