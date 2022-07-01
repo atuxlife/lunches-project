@@ -48,3 +48,14 @@ Ahí podrá ver la pantalla dividida en los siguientes apartados:
 
 Inicialmente se hace la solicitud del plato, si hay existencias se toman del inventario descontando cantidades, sino se genera un listado de ingredientes pendientes para compra. Si queremos solicitar ingredientes vamos al apartado de **Inventario bodega** y hacer click en el botón **Solicitar ingredientes**, este botón generará una orden de compra en estado **_requested_** para que luego, con el botón de **Comprar en mercado** se restará del inventario del mercado y se agregará al de la bodega del restaurante. Ya teniendo nuevamente existencias en bodega, se puede hacer un click en el botón **Reprocesar órdenes** para que se preparen los platos que estaban pendientes por ingredientes y dejar esta solicitud en estado **_completed_**
 
+## Datos del .env
+
+```
+# Base de datos de almuerzos
+DB_HOST=lunches-db
+DB_PORT=3306
+DB_DATABASE=lunchesdb
+DB_PASSWORD=AZ92adx$!
+DB_USERNAME=lunchesadm
+```
+Estos deberán ser usados también en el .env de lunches-api
