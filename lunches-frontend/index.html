@@ -1,14 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Probando servidor Nginx</title>
+    <title>Restaurante Alegra</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="css/bootstrap-lumen.min.css">
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.css"/>
+    <!-- Toastr -->
+    <link rel="stylesheet" href="css/toastr.min.css">
 </head>
 <body>
 
-    <h1>Probando servidor Nginx</h1>
-    
+    <div class="container mb-5">
+
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <h1>Restaurante Alegra</h1>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-3">
+
+            <div class="col-12">
+
+                <div class="card">
+                
+                    <h5 class="card-header bg-primary text-light">Menú</h5>
+                    
+                    <div id="listMenu" class="card-body"></div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button id="btnPedirPlato" type="button" class="btn btn-success btn-sm"><b>Solicitar plato</b></button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card">
+                
+                    <h5 class="card-header bg-primary text-light">Órdenes a cocina</h5>
+                    
+                    <div id="listOrders" class="card-body"></div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button id="btnReprocesarOrdenes" type="button" class="btn btn-danger btn-sm"><b>Reprocesar órdenes</b></button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div class="col-12">
+
+                <div class="card">
+                
+                    <h5 class="card-header bg-primary text-light">Órdenes de compra</h5>
+                    
+                    <div id="listPurchaseOrders" class="card-body"></div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button id="btnComprarMercado" type="button" class="btn btn-danger btn-sm"><b>Comprar en mercado</b></button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+
+            <div class="col-6">
+
+                <div class="card">
+                
+                    <h5 class="card-header bg-primary text-light">Inventario bodega</h5>
+                    
+                    <div id="listInventario" class="card-body"></div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button id="btnSolicitarIngredientes" type="button" class="btn btn-success btn-sm"><b>Solicitar ingredientes</b></button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div class="col-6">
+
+                <div class="card">
+                
+                    <h5 class="card-header bg-primary text-light">Inventario mercado</h5>
+                    
+                    <div id="listMercado" class="card-body"></div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button id="btnRenovarMercado" type="button" class="btn btn-danger btn-sm"><b>Renovar inventario</b></button>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalIngredientes" tabindex="-1" aria-labelledby="modalIngredientesLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary" id="modalIngredientesLabel"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Ingrediente</th>
+                                <th class="text-center">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyIngredientes"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Datatables -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.js"></script>
+    <!-- Funciones Datatables -->
+    <script src="js/datatablesMain.js"></script>
+    <!-- Mi Código JS -->    
+    <script src="js/main.js"></script>
+    <!-- Botones de acción -->
+    <script src="js/actionButtons.js"></script>
+    <!-- Toastr -->
+    <script src="js/toastr.min.js"></script>
 </body>
 </html>

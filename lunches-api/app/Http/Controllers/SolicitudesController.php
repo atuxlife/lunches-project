@@ -35,6 +35,7 @@ class SolicitudesController extends Controller
         $mensajeRespuesta = '';
         $estadoOrden = '';
         $platoName = $plato[0]['nombre'];
+        $error = 0;
 
         foreach ($ingredientes as $value) {
             if($value['stock'] == 0){
@@ -47,6 +48,7 @@ class SolicitudesController extends Controller
         if( $solicitar == 1 ){
             $mensajeRespuesta = 'No se podrá preparar el plato '.$platoName.' por falta de los ingredientes: '.implode(', ', $ingredientsList).'. Se hará la solicitud de compra.';
             $estadoOrden = 'pending';
+            $error = 1;
         } else {
             $mensajeRespuesta = 'Prepararo y entrego el plato '.$platoName.' para el cliente';
             $estadoOrden = 'completed';
@@ -64,6 +66,7 @@ class SolicitudesController extends Controller
 
             return response()->json([
                 'message'   => $mensajeRespuesta,
+                'error'     => $error,
                 'order'     => $order
             ],201);
 
