@@ -4,8 +4,8 @@ version: '3.9'
 networks:
   backend:
     driver: bridge
-  # frontend:
-    # driver: bridge
+  frontend:
+    driver: bridge
 
 services:
   
@@ -47,3 +47,16 @@ services:
       - lunches-db
     networks:
       - backend
+
+  # Lunches frontend service
+  lunches-frontend:
+    image: nginx:stable-alpine
+    command: nginx -g "daemon off;"
+    container_name: lunches-frontend
+    ports:
+      - "9000:80"
+    volumes:
+      - ./lunches-frontend:/var/www/html
+      - ./nginx-conf/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - frontend
